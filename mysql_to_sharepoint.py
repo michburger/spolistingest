@@ -27,21 +27,23 @@ def map_mysql_to_sharepoint(mysql_row, columns):
     row_id = str(row_dict.get('id', ''))
     vorname = str(row_dict.get('vorname', ''))
     nachname = str(row_dict.get('nachname', ''))
-    
     # Combine into Title
     title = f"{row_id} - {nachname}, {vorname}"
-    
-    # Build fields dictionary, excluding id, vorname, nachname
-    esk = mysql_row[columns.index('esk')]
+    esk = int(row_dict.get('esk', -1))
     kurs_mapping = {0: 'Erwachsene 2026', 1: 'Studierende 2026', 2: 'Jugendliche 2026'}
     kurs_value = kurs_mapping.get(esk, None)
-    result = {'Title': title, 'Kurs': kurs_value, 'Status': 'Anfrage'}
-    excluded_cols = {'id', 'esk'}
-    
-    for col, val in zip(columns, mysql_row):
-        if col not in excluded_cols:
-            result[col] = str(val) if val is not None else ""
-    
+    result = {
+        'Title': title,
+        'Kurs': kurs_value,
+        'Status': 'Anfrage',
+        'Vorname': vorname,
+        'Nachname': nachname,
+        'e-mail': str(row_dict.get('email', '')),
+        'Adresse': str(row_dict.get('adresse', '')),
+        'Zusatzangaben': str(row_dict.get('nachricht', '')),
+        'Telefon': str(row_dict.get('telefon', '')),
+        'Geburtsdatum': str(row_dict.get('geburtstag', '')),
+        }    
     return result
 
 def item_exists_in_list(site_id, list_id, title, headers):
