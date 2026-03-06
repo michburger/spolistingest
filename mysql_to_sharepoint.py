@@ -30,7 +30,7 @@ def map_mysql_to_sharepoint(mysql_row, columns):
     # Combine into Title
     title = f"{row_id} - {nachname}, {vorname}"
     esk = int(row_dict.get('esk', -1))
-    kurs_mapping = {0: 'Erwachsene 2026', 1: 'Studierende 2026', 2: 'Jugendliche 2026'}
+    kurs_mapping = {0: 2, 1: 4, 2: 3}
     kurs_value = kurs_mapping.get(esk, None)
     print(f"Mapping MySQL row to SharePoint item: Title='{title}', Kurs='{kurs_value}', ESK='{esk}'")
     result = {
