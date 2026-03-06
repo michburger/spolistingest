@@ -32,7 +32,7 @@ def map_mysql_to_sharepoint(mysql_row, columns):
     title = f"{row_id} - {nachname}, {vorname}"
     
     # Build fields dictionary, excluding id, vorname, nachname
-    result = {'Title': title}
+    result = {'Title': title, 'Status': 'Anfrage'}
     excluded_cols = {'id', 'vorname', 'nachname'}
     
     for col, val in zip(columns, mysql_row):
@@ -177,6 +177,7 @@ def main():
             success_count += 1
         except Exception as e:
             print(f"Error creating list item for row {row}: {e}")
+            print(f"Error details: {e.response.text if hasattr(e, 'response') else 'No response'}")
 
     print(f"Successfully uploaded {success_count} items to SharePoint list '{args.list_name}'")
     if skipped_count > 0:
