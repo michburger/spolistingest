@@ -36,7 +36,7 @@ def map_mysql_to_sharepoint(mysql_row, columns):
     kurs_mapping = {0: 'Erwachsene 2026', 1: 'Studierende 2026', 2: 'Jugendliche 2026'}
     kurs_value = kurs_mapping.get(esk, None)
     result = {'Title': title, 'Kurs': kurs_value, 'Status': 'Anfrage'}
-    excluded_cols = {'id', 'vorname', 'nachname'}
+    excluded_cols = {'id', 'esk'}
     
     for col, val in zip(columns, mysql_row):
         if col not in excluded_cols:
