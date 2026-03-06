@@ -55,6 +55,7 @@ def item_exists_in_list(site_id, list_id, title, headers):
         return len(items) > 0
     except Exception as e:
         print(f"Error checking if item exists: {e}")
+        print(f"Error details: {e.response.text if hasattr(e, 'response') else 'No response'}")
         return False
 
 def main():
