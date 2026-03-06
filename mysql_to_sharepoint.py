@@ -2,8 +2,11 @@ import argparse
 import pymysql
 from msal import ConfidentialClientApplication
 import requests
+from datetime import datetime
+today = datetime.today()
 
 def map_mysql_to_sharepoint(mysql_row, columns):
+    global today
     # Map MySQL row data to SharePoint list item fields
     # Combines id, vorname, and nachname into Title field
     # Excludes id, vorname, nachname from direct mapping since they're used for Title
@@ -22,6 +25,7 @@ def map_mysql_to_sharepoint(mysql_row, columns):
     # `erzeugt` timestamp NOT NULL DEFAULT current_timestamp()
     # )
     row_dict = {col: val for col, val in zip(columns, mysql_row)}
+    year_str = str(today.year)
     
     # Extract components for Title field
     row_id = str(row_dict.get('id', ''))
@@ -30,9 +34,12 @@ def map_mysql_to_sharepoint(mysql_row, columns):
     # Combine into Title
     title = f"{row_id} - {nachname}, {vorname}"
     esk = int(row_dict.get('esk', -1))
+    # TODO: look up id
     kurs_mapping = {0: 2, 1: 4, 2: 3}
+    typ_mapping = {0: 'Erwachsene', 1: 'Studierende', 2: 'Kinder'}
     kurs_value = int(kurs_mapping.get(esk, -1))  # Default to -1 if esk value is unexpected
-    print(f"Mapping MySQL row to SharePoint item: Title='{title}', Kurs='{kurs_value}', ESK='{esk}'")
+    typ_value = typ_mapping.get(esk, 'Unbekannt')
+    print(f"Mapping MySQL row to SharePoint item: Title='{title}', Kurs='{kurs_value}', ESK='{esk}', Typ='{typ_value}'")
     result = {
         'Title': title,
         'KursLookupId': kurs_value,
@@ -44,6 +51,8 @@ def map_mysql_to_sharepoint(mysql_row, columns):
         'Zusatzangaben': str(row_dict.get('nachricht', '')),
         'Telefon': str(row_dict.get('telefon', '')),
         'Geburtsdatum': str(row_dict.get('geburtstag', '')),
+        'Warteliste Jahr': year_str,
+        'Warteliste Typ': typ_value
         }    
     return result
 
