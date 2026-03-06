@@ -61,6 +61,7 @@ def main():
     parser = argparse.ArgumentParser(description="Read from MySQL table and upload to SharePoint list via Graph API")
     parser.add_argument('--db-host', default='localhost', help='MySQL host')
     parser.add_argument('--db-port', type=int, default=3306, help='MySQL port')
+    parser.add_argument('--db-socket', help='Path to MySQL unix socket (overrides host/port when provided)')
     parser.add_argument('--db-user', required=True, help='MySQL username')
     parser.add_argument('--db-password', required=True, help='MySQL password')
     parser.add_argument('--db-name', required=True, help='MySQL database name')
@@ -75,13 +76,19 @@ def main():
 
     # Connect to MySQL and read data
     try:
-        conn = pymysql.connect(
-            host=args.db_host,
-            port=args.db_port,
-            user=args.db_user,
-            password=args.db_password,
-            database=args.db_name
-        )
+        connect_kwargs = {
+            'user': args.db_user,
+            'password': args.db_password,
+            'database': args.db_name
+        }
+        # prefer unix socket when provided
+        if args.db_socket:
+            connect_kwargs['unix_socket'] = args.db_socket
+        else:
+            connect_kwargs['host'] = args.db_host
+            connect_kwargs['port'] = args.db_port
+
+        conn = pymysql.connect(**connect_kwargs)
         cursor = conn.cursor()
         cursor.execute(f"SELECT * FROM {args.table}")
         rows = cursor.fetchall()

@@ -14,16 +14,18 @@ This Python script reads data from a MySQL database table and uploads it to a Sh
 ## Installation
 
 1. Install dependencies:
+
    ```bash
    pip install -r requirements.txt
    ```
 
 ## Usage
 
-Run the script with the required command-line arguments:
+Run the script with the required command-line arguments. If your MySQL server uses a UNIX socket (e.g. when running on the same host), supply `--db-socket` instead of or in addition to host/port:
 
 ```bash
 python mysql_to_sharepoint.py \
+  --db-socket /var/run/mysqld/mysqld.sock \
   --db-user your_mysql_user \
   --db-password your_mysql_password \
   --db-name your_database \
@@ -35,10 +37,13 @@ python mysql_to_sharepoint.py \
   --list-name "Your List Name"
 ```
 
+(you can still pass `--db-host localhost`/`--db-port 3306` if you prefer a TCP connection; the socket path takes precedence if given.)
+
 ### Arguments
 
 - `--db-host`: MySQL host (default: localhost)
 - `--db-port`: MySQL port (default: 3306)
+- `--db-socket`: path to MySQL UNIX socket file (if provided, host/port are ignored)
 - `--db-user`: MySQL username (required)
 - `--db-password`: MySQL password (required)
 - `--db-name`: MySQL database name (required)
