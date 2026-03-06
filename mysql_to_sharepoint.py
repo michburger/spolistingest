@@ -51,8 +51,8 @@ def map_mysql_to_sharepoint(mysql_row, columns):
         'Zusatzangaben': str(row_dict.get('nachricht', '')),
         'Telefon': str(row_dict.get('telefon', '')),
         'Geburtsdatum': str(row_dict.get('geburtstag', '')),
-        'Warteliste Jahr': year_str,
-        'Warteliste Typ': typ_value
+        'WartelisteJahr': year_str,
+        'WartelisteTyp': typ_value
         }    
     return result
 
