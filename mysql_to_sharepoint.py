@@ -38,7 +38,7 @@ def map_mysql_to_sharepoint(mysql_row, columns):
         'Status': 'Anfrage',
         'Vorname': vorname,
         'Nachname': nachname,
-        'e-mail': str(row_dict.get('email', '')),
+        'e_x002d_mail': str(row_dict.get('email', '')),
         'Adresse': str(row_dict.get('adresse', '')),
         'Zusatzangaben': str(row_dict.get('nachricht', '')),
         'Telefon': str(row_dict.get('telefon', '')),
