@@ -35,7 +35,7 @@ def map_mysql_to_sharepoint(mysql_row, columns):
     print(f"Mapping MySQL row to SharePoint item: Title='{title}', Kurs='{kurs_value}', ESK='{esk}'")
     result = {
         'Title': title,
-        'KursId': kurs_value,
+        'KursLookupId': kurs_value,
         'Status': 'Anfrage',
         'Vorname': vorname,
         'Nachname': nachname,
