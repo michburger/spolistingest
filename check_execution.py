@@ -2,7 +2,7 @@
 import argparse
 parser = argparse.ArgumentParser(description='Sharepoint Online Ingest Health Check')
 parser.add_argument('--log',
-                    default='~/logs/spolistingest.log',
+                    default='./logs/spolistingest.log',
                     help='Path to the log file')
 
 try:
@@ -11,6 +11,7 @@ try:
             pass
         last_line = line
 
+        print(f"Last log line: {last_line}")  # Debugging output
         if last_line.startswith('Error'):
             print("Execution failed with error: " + last_line)
             exit(1)
