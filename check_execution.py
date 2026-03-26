@@ -17,11 +17,12 @@ try:
             print("Execution failed with error: " + last_line)
             exit(1)
 
-        if not (last_line.startswith('SharePoint List Ingest executed at')):
+        if not (last_line.startswith('SharePoint List Ingest executed at ')):
             print("Invalid result text found.")
             exit(1)
 
         date_str = last_line.split('SharePoint List Ingest executed at ')[1]
+        print(f"Date string: {date_str}")  # Debugging output
         execution_time = datetime.strptime(date_str, '%a %b %d %H:%M:%S %Z %Y')
         print(f"Execution time: {execution_time}")  # Debugging output
         delta_time = datetime.now() - execution_time
