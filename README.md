@@ -16,7 +16,9 @@ This Python script reads data from a MySQL database table and uploads it to a Sh
 1. Install dependencies:
 
    ```bash
-   pip install -r requirements.txt
+   python3 -m venv .venv
+   .venv/bin/activate
+   python3 -m pip install -r requirements.txt
    ```
 
 ## Usage
