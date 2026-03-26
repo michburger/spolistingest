@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 import argparse
-from datetime import datetime, timedelta
+import datetime
 parser = argparse.ArgumentParser(description='Sharepoint Online Ingest Health Check')
 parser.add_argument('--log',
                     default='./logs/spolistingest.log',
@@ -10,7 +10,7 @@ try:
     with open(parser.parse_args().log) as f:
         for line in f:
             pass
-        last_line = line
+        last_line = line.rstrip()
 
         print(f"Last log line: {last_line}")  # Debugging output
         if last_line.startswith('Error'):
@@ -22,12 +22,10 @@ try:
             exit(1)
 
         date_str = last_line.split('SharePoint List Ingest executed at ')[1]
-        print(f"Date string: {date_str}")  # Debugging output
-        execution_time = datetime.strptime(date_str, '%a %b %d %H:%M:%S %Z %Y')
-        print(f"Execution time: {execution_time}")  # Debugging output
-        delta_time = datetime.now() - execution_time
+        execution_time = datetime.datetime.strptime(date_str, '%a %b %d %H:%M:%S CET %Y')
+        delta_time = datetime.datetime.now() - execution_time
         print(f"Time since execution: {delta_time}")  # Debugging output
-        if delta_time > timedelta(minutes=30):
+        if delta_time > datetime.timedelta(minutes=30):
             print("Execution is older than 30 minutes.")
             exit(1)
         else:
