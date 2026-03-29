@@ -22,7 +22,7 @@ try:
             exit(1)
 
         date_str = last_line.split('SharePoint List Ingest executed at ')[1]
-        execution_time = datetime.datetime.strptime(date_str, '%a %b %d %H:%M:%S CET %Y')
+        execution_time = datetime.datetime.strptime(date_str, '%a %b %d %H:%M:%S %Z %Y')
         delta_time = datetime.datetime.now() - execution_time
         print(f"Time since execution: {delta_time}")  # Debugging output
         if delta_time > datetime.timedelta(minutes=30):
